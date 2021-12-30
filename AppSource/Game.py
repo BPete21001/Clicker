@@ -1,19 +1,22 @@
 #Import necessary modules
 import pygame 
 from random import randint
+from Classes import *
+
+global DISPLAYSURF
 
 #Start pygame
 pygame.init()
-running = True
 
-while running 
+#Create the display for the game
+DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+
+#Variables to be used by the game itself
+activeCircle = Circle()
+gameSession = Game()
+
+gameSession.play(DISPLAYSURF)
 	
-	#Check for inputs 
-	for event in pygame.event.get():
-		#Exit the loop if the game is quit
-		if event.type == pygame.QUIT: 
-			running = False
-
 
 
 #End Pygame
