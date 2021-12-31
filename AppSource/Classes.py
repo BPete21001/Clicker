@@ -1,14 +1,15 @@
 import pygame 
 from random import randint
+from GameHelpers import *
 
 #Class to store the information about any given circle on the screen
 class Circle(object):
 	#constructor for all fields
-	def __init__(self, radius, color, xPos, yPos): 
+	def __init__(self, radius, color): 
 		self.radius = radius
 		self.color = color
-		self.xPos = xPos
-		self.yPos = yPos
+		self.xPos = 0
+		self.yPos = 0
 	#default constructor 
 	def __init__(self):
 		self.radius = 20
@@ -90,18 +91,29 @@ class Game(object):
 	def play(self, DISPLAYSURF):
 		
 		running = True
+		activeCircle = Circle()
+		activeCircle.setRadius(genCircleRadius(self))
+		activeCircle.setColor((255,255,255));
+		activeCircle.setXPos(250);
+		activeCircle.setYPos(150);
+
 		clock = pygame.time.Clock()
 
 		while running: 
-			
+				
+			DISPLAYSURF.fill((0, 0, 0))
 			#Check for inputs 
 			for event in pygame.event.get():
 				#Kill the game if escape is pressed	
 				if (event.type == pygame.KEYDOWN):
 					if(event.key == pygame.K_ESCAPE):
 						running = False
+
 				if(event.type == pygame.MOUSEBUTTONUP):
-					pygame.draw.circle(DISPLAYSURF, (255,255,255), pygame.mouse.get_pos(), 20)
-	
+					randomizeCirclePosition(activeCircle)
+					print("X: " + str(activeCircle.getXPos()))
+					print("Y: " + str(activeCircle.getYPos()))
+
+			pygame.draw.circle(DISPLAYSURF, activeCircle.getColor(), (activeCircle.getXPos(), activeCircle.getYPos()), activeCircle.getRadius())
 			pygame.display.flip()
 			clock.tick(40)	
