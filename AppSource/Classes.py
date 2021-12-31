@@ -41,7 +41,7 @@ class Circle(object):
 	def getYPos(self):
 		return self.yPos
 
-#Class to store infromation about the running game
+#Class to store information about the running game
 class Game(object):
 	#Class declaration method with number of circles and difficuly included
 	def __init__ (self, totalCircles, difficulty):
@@ -117,3 +117,35 @@ class Game(object):
 			pygame.draw.circle(DISPLAYSURF, activeCircle.getColor(), (activeCircle.getXPos(), activeCircle.getYPos()), activeCircle.getRadius())
 			pygame.display.flip()
 			clock.tick(40)	
+
+#Class to store information about text to me used as a button
+class TextButton(object):
+	def __init__(self, text, font, color, hoverColor, xPos, yPos):
+		self.text = text
+		self.font = font 
+		self.color = color 
+		self.hoverColor = hoverColor 
+		self.xPos = xPos
+		self.yPos = yPos
+	def draw(self, DISPLAYSURF):
+		#if the mouse is over the button, change to its hover color and draw to screen
+		if(self.mouseIsOver):
+			buttonImage = self.font.render(self.text, True, self.hoverColor)
+		else:
+			buttonImage = self.font.render(self.text, True, self.color)
+		DISPLAYSURF.blit(buttonImage, (self.xPos, self.yPos))
+	def mouseIsOver(self):
+		#Create button image using same information to get dimensions
+		buttonImage = self.font.render(self.text, True, self.color)
+		width, height = buttomImage.get_size()
+
+		#get mouse position
+		mouseX, mouseY = pygame.mouse.get_pos()
+
+		#return true if the mouse is currently over the object
+		if(mouseX > self.xPos and (mouseX < self.xPos + width)):
+			if(mouseY > self.yPos and (mouseY < self.yPos + height)):
+				return True
+
+		#return false if it is not
+		return False

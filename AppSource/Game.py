@@ -1,9 +1,6 @@
 #Import necessary modules
 import pygame 
-from random import randint
 from Classes import *
-
-global DISPLAYSURF
 
 #Start pygame
 pygame.init()
@@ -18,8 +15,6 @@ gameSession.setDifficulty("EASY")
 
 #Play the game 
 gameSession.play(DISPLAYSURF)
-	
-
 
 #End Pygame
 pygame.quit()
