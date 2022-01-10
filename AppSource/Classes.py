@@ -107,12 +107,11 @@ class Game(object):
 				#Kill the game if escape is pressed	
 				if (event.type == pygame.KEYDOWN):
 					if(event.key == pygame.K_ESCAPE):
-						running = False
+						print("exit")
+						return "EXIT"
 
 				if(event.type == pygame.MOUSEBUTTONUP):
 					randomizeCirclePosition(activeCircle)
-					print("X: " + str(activeCircle.getXPos()))
-					print("Y: " + str(activeCircle.getYPos()))
 
 			pygame.draw.circle(DISPLAYSURF, activeCircle.getColor(), (activeCircle.getXPos(), activeCircle.getYPos()), activeCircle.getRadius())
 			pygame.display.flip()
@@ -120,13 +119,13 @@ class Game(object):
 
 #Class to store information about text to me used as a button
 class TextButton(object):
-	def __init__(self, text, font, color, hoverColor, xPos, yPos):
+	def __init__(self, text, font, color, hoverColor):
 		self.text = text
 		self.font = font 
 		self.color = color 
 		self.hoverColor = hoverColor 
-		self.xPos = xPos
-		self.yPos = yPos
+		self.xPos = 0
+		self.yPos = 0
 	def draw(self, DISPLAYSURF):
 		#if the mouse is over the button, change to its hover color and draw to screen
 		if(self.mouseIsOver()):
@@ -148,3 +147,21 @@ class TextButton(object):
 
 		#return false if it is not
 		return False
+	#method to get width of button for placing purposes
+	def getWidth(self):
+		buttonImage = self.font.render(self.text, True, self.color)
+		width, height = buttonImage.get_size()
+		return width
+	#method to get height of button for placing purposes
+	def getHeight(self):
+		buttonImage = self.font.render(self.text, True, self.color)
+		width, height = buttonImage.get_size()
+		return height
+	def getXPos(self):
+		return self.xPos
+	def getYPos(self):
+		return self.yPos
+	def setXPos(self, xPos):
+		self.xPos = xPos
+	def setYPos(self, yPos):
+		self.yPos = yPos
