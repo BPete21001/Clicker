@@ -13,12 +13,20 @@ DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 activeCircle = Circle()
 gameSession = Game()
 gameSession.setDifficulty("EASY")
+running = True
+statusCode = "TITLE"
 
-#display the starting screen
-startScreen(DISPLAYSURF)
-
-#Play the game 
-gameSession.play(DISPLAYSURF)
+while running:
+	#display the starting screen
+	if(statusCode == "TITLE"):
+		statusCode = startScreen(DISPLAYSURF)
+		continue
+	elif(statusCode == "START"):
+		#Play the game 
+		statusCode = gameSession.play(DISPLAYSURF)
+		continue
+	else: 
+		running = False
 
 #End Pygame
 pygame.quit()
