@@ -1,6 +1,7 @@
 #Import necessary modules
 import pygame 
 from Classes import *
+from MainScreens import *
 
 #Start pygame
 pygame.init()
@@ -12,6 +13,9 @@ DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 activeCircle = Circle()
 gameSession = Game()
 gameSession.setDifficulty("EASY")
+
+#display the starting screen
+startScreen(DISPLAYSURF)
 
 #Play the game 
 gameSession.play(DISPLAYSURF)
