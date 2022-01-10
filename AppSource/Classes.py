@@ -129,7 +129,7 @@ class TextButton(object):
 		self.yPos = yPos
 	def draw(self, DISPLAYSURF):
 		#if the mouse is over the button, change to its hover color and draw to screen
-		if(self.mouseIsOver):
+		if(self.mouseIsOver()):
 			buttonImage = self.font.render(self.text, True, self.hoverColor)
 		else:
 			buttonImage = self.font.render(self.text, True, self.color)
@@ -137,14 +137,13 @@ class TextButton(object):
 	def mouseIsOver(self):
 		#Create button image using same information to get dimensions
 		buttonImage = self.font.render(self.text, True, self.color)
-		width, height = buttomImage.get_size()
+		width, height = buttonImage.get_size()
 
 		#get mouse position
 		mouseX, mouseY = pygame.mouse.get_pos()
-
 		#return true if the mouse is currently over the object
-		if(mouseX > self.xPos and (mouseX < self.xPos + width)):
-			if(mouseY > self.yPos and (mouseY < self.yPos + height)):
+		if(mouseX > self.xPos and mouseX < (self.xPos + width)):
+			if(mouseY > self.yPos and mouseY < (self.yPos + height)):
 				return True
 
 		#return false if it is not
