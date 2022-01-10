@@ -1,4 +1,5 @@
 import pygame 
+import time
 from random import randint
 from GameHelpers import *
 
@@ -91,26 +92,39 @@ class Game(object):
 	def play(self, DISPLAYSURF):
 		
 		running = True
+
 		activeCircle = Circle()
 		activeCircle.setRadius(genCircleRadius(self))
-		activeCircle.setColor((255,255,255));
-		activeCircle.setXPos(250);
-		activeCircle.setYPos(150);
+		activeCircle.setColor((255,255,255))
+		randomizeCirclePosition(activeCircle)
 
 		clock = pygame.time.Clock()
-
+		
+		start = time.time()
 		while running: 
-				
+
+			if(self.getHits() + self.getMisses() == self.getTotalCircles()):
+				end = time.time()
+				self.setEndTime((end - start) + self.getMisses())
+				print("Raw Time: " + str(end - start) + " seconds")
+				print("Hits: " + str(self.getHits()))
+				print("Misses: " + str(self.getMisses()))
+				print("Penality time: " + str(self.getMisses()) + " seconds")
+				print("Final Score: " + str(self.getEndTime()))
+				return "GAME_DONE"
+
 			DISPLAYSURF.fill((0, 0, 0))
 			#Check for inputs 
 			for event in pygame.event.get():
 				#Kill the game if escape is pressed	
 				if (event.type == pygame.KEYDOWN):
 					if(event.key == pygame.K_ESCAPE):
-						print("exit")
 						return "EXIT"
-
 				if(event.type == pygame.MOUSEBUTTONUP):
+					if(isOverCircle(activeCircle)):
+						self.setHits(self.getHits() + 1)
+					else:
+						self.setMisses(self.getMisses() + 1)
 					randomizeCirclePosition(activeCircle)
 
 			pygame.draw.circle(DISPLAYSURF, activeCircle.getColor(), (activeCircle.getXPos(), activeCircle.getYPos()), activeCircle.getRadius())
