@@ -25,14 +25,16 @@ app.get("/", (req, res) => {
 });
 
 //GET call to see a score for a specific user
-app.get("/api/getscore/:username", (req, res) => {
+app.get("/api/leaderboard/:mode/:difficulty/:username", (req, res) => {
   const username = req.params.username;
+  const mode = req.params.mode;
+  const difficulty = req.params.difficulty;
 
   try {
-    const data = fs.readFileSync(path.resolve('scores', username + '.json'), 'utf8');
+    const data = fs.readFileSync(path.resolve('scores', String(mode), String(difficulty), username + '.json'), 'utf8');
     res.status(200).send(data);
     } catch (err) {
-     res.status(404).send("No score found for user: " + username);
+     res.status(404).send("No score found for mode: " + mode + ", difficulty: " + difficulty + ", user: " + username);
     }
 });
 
@@ -46,16 +48,16 @@ app.post('/api/newscore', (req, res) => {
         "time" : req.body.time
     }
 
-    fs.writeFile(path.resolve('scores', mode, difficulty, username + '.json'), JSON.stringify(score),  (err) => {
-        if (err)
+    fs.writeFile(path.resolve('scores', mode, difficulty, username + '.json'), JSON.stringify(score), (err) => {
+    if (err){
+      console.log(err);
         res.status(500).send("Error writing score");
-        else {
-        console.log("Successful Post")
-      }
-    
+    }
+    else {
+      res.status(200).send("Score Posted");
+    }
     });
 
-    res.status(200).send('Score Posted');
 });
 
 
