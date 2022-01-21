@@ -28,22 +28,25 @@ app.get("/", (req, res) => {
 app.get("/api/getscore/:username", (req, res) => {
   const username = req.params.username;
 
-
   try {
     const data = fs.readFileSync(path.resolve('scores', username + '.json'), 'utf8');
     res.status(200).send(data);
     } catch (err) {
-     res.status(500).send("No score found for user: " + username);
+     res.status(404).send("No score found for user: " + username);
     }
 });
 
 //POST call to add a new score to the server
-app.post('/api/newscore/:username', (req, res) => {
-    const newScore = JSON.stringify(req.body);
-    const username = req.params.username;
+app.post('/api/newscore', (req, res) => {
+    const difficulty = req.body.difficulty;
+    const username = req.body.username;
+    const mode = req.body.mode;
+    const score = {
+        "score": req.body.score,
+        "time" : req.body.time
+    }
 
-    
-    fs.writeFile(path.resolve('scores', username + '.json'), String(newScore),  (err) => {
+    fs.writeFile(path.resolve('scores', mode, difficulty, username + '.json'), JSON.stringify(score),  (err) => {
         if (err)
         res.status(500).send("Error writing score");
         else {
